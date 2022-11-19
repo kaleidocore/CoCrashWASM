@@ -4,7 +4,7 @@ namespace CoCrashWASM;
 
 public class Program
 {
-	public static async Task Main(string[] args)
+	public static async Task Main()
 	{
 		try
 		{
@@ -14,6 +14,7 @@ public class Program
 		catch (Exception ex)
 		{
 			System.Diagnostics.Debugger.Break(); // TypeLoadException
+			throw;
 		}
 	}
 
@@ -27,27 +28,27 @@ public class Program
 }
 
 
-public abstract class Prop
+public abstract class BaseProp
 {
 }
 
-public class Prop<T> : Prop
+public class DerivedProp<T> : BaseProp
 {
 }
 
 public interface ICrash<T>
 {
-	Prop MyProp { get; }
+	BaseProp MyProp { get; }
 }
 
 public abstract class BaseCrash
 {
-	public abstract Prop MyProp { get; }
+	public abstract BaseProp MyProp { get; }
 }
 
 public class DerivedCrash<T> : BaseCrash, ICrash<T>
 {
-	public override Prop<T> MyProp { get; } = new();
+	public override DerivedProp<T> MyProp { get; } = new();
 }
 
 
